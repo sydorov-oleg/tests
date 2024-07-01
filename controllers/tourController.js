@@ -10,7 +10,7 @@ async function getAllTours(req, res) {
       data: { tours },
     });
   } catch (err) {
-    res.status(404).json({ status: 'fail', message: 'Route not active' });
+    res.status(404).json({ status: 'fail', message: err });
   }
 }
 
@@ -20,7 +20,7 @@ async function createTour(req, res) {
     const newTour = await TourModel.create(body);
     res.status(201).json({ status: 'success', data: { tour: newTour } });
   } catch (err) {
-    res.status(400).json({ status: 'fail', message: 'Invalid data' });
+    res.status(400).json({ status: 'fail', message: err });
   }
 }
 
@@ -35,7 +35,7 @@ async function getTour(req, res) {
       },
     });
   } catch (err) {
-    res.status(404).json({ status: 'fail', message: 'Invalid ID' });
+    res.status(404).json({ status: 'fail', message: err });
   }
 }
 
@@ -52,7 +52,11 @@ async function updateTour(req, res) {
 }
 
 function deleteTour(req, res) {
-  res.status(200).json({ status: 'success', data: null });
+  try {
+    res.status(200).json({ status: 'success', data: null });
+  } catch (err) {
+    res.status(404).json({ status: 'fail', message: err });
+  }
 }
 
 module.exports = {
